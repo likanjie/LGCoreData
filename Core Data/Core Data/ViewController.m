@@ -29,14 +29,63 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //1、添加数据到数据库
+//    //1、添加数据到数据库
+//    
+//    [self addDataToDb];
+//    //2、查询数据
+//    [self selectData];
+    //3、修改数据
+//    [self updateData];
     
-    [self addDataToDb];
-    //2、查询数据
-    [self selectData];
-    
+    //删除数据
+    [self deleteData];
 }
 
+/**
+ *  删除数据
+ */
+- (void)deleteData{
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc]init];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Student" inManagedObjectContext:self.manageObjectContet];
+    
+    [fetchRequest setEntity:entity];
+    
+    NSArray *fetchedObjects = [self.manageObjectContet executeFetchRequest:fetchRequest error:nil];
+    
+    
+    Student *stu = fetchedObjects.firstObject;
+    
+    [self.manageObjectContet deleteObject:stu];
+    
+    [self.manageObjectContet save:nil];
+}
+
+/**
+ *  修改数据
+ */
+- (void)updateData{
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc]init];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Student" inManagedObjectContext:self.manageObjectContet];
+    
+    [fetchRequest setEntity:entity];
+    
+    NSArray *fetchedObjects = [self.manageObjectContet executeFetchRequest:fetchRequest error:nil];
+    
+    
+    Student *stu = fetchedObjects.firstObject;
+    
+    [stu setName:@"我是牧羊人"];
+    
+    [self.manageObjectContet save:nil];
+}
+
+/**
+ *  查询数据
+ */
 - (void)selectData{
     // 初始化一个查询请求
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
